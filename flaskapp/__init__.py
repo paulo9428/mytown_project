@@ -2,6 +2,7 @@ from flask import Flask
 from flask import session, render_template, request
 from datetime import datetime, date
 from flask import g , Response, make_response, url_for
+from pymongo import MongoClient
 
 app = Flask(__name__)
 app.debug = True
@@ -24,3 +25,28 @@ def product_page():
 @app.route("/checkout_page")
 def checkout_page():
     return render_template("checkout-page.html")
+
+@app.route("/recording_modal")
+def recording():
+    return render_template('macro.html')
+
+
+@app.route('/mongo', methods=['GET'])
+def mongoTest():
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client.merchandise
+    collection = db.user
+    results = collection.find()
+    client.close()
+    return render_template('mongo.html', data=results)
+
+ 
+
+
+
+
+
+
+
+
+
