@@ -1,3 +1,4 @@
+{% macro sign_up_modal() -%}
 <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -11,25 +12,63 @@
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <i class="fas fa-user prefix grey-text"></i>
-          <input type="text" id="orangeForm-name" class="form-control validate">
+          <input type="text" id="orangeForm-name" class="form-control validate" name='name'>
           <label data-error="wrong" data-success="right" for="orangeForm-name">Your name</label>
         </div>
         <div class="md-form mb-5">
           <i class="fas fa-envelope prefix grey-text"></i>
-          <input type="email" id="orangeForm-email" class="form-control validate">
+          <input type="email" id="orangeForm-email" class="form-control validate" name='email'>
           <label data-error="wrong" data-success="right" for="orangeForm-email">Your email</label>
         </div>
 
         <div class="md-form mb-4">
           <i class="fas fa-lock prefix grey-text"></i>
-          <input type="password" id="orangeForm-pass" class="form-control validate">
-          <label data-error="wrong" data-success="right" for="orangeForm-pass">Your password</label>
+          <input type="password" id="orangeForm-pass" class="form-control validate" name='passwd'>
+          <label data-error="wrong" data-success="right" for="orangeForm-pass">password</label>
         </div>
 
       </div>
       <div class="modal-footer d-flex justify-content-center">
-        <button class="btn btn-deep-orange">Sign up</button>
+        <button class="btn btn-deep-orange" type="submit">Sign up</button>
       </div>
     </div>
   </div>
 </div>
+{%- endmacro %}
+
+
+
+
+
+{% macro modal(id, title, icon='', isShowFooter=True, ok_fn='') %}
+<div class="modal fade" id="{{id}}" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <strong>
+                        {% if icon %}
+                        <i class="{{icon}}"></i>
+                        {% endif %}
+                        {{title}}
+                    </strong>
+                </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{caller()}}
+            </div>
+            {% if isShowFooter %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <button type="button" onclick="{{ok_fn}}" class="btn btn-primary">확인</button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endmacro %}
+

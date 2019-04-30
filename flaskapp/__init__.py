@@ -4,6 +4,7 @@ from datetime import datetime, date
 from flask import g , Response, make_response, url_for
 from pymongo import MongoClient
 from werkzeug import secure_filename
+from flaskapp import init_database
 
 app = Flask(__name__)
 app.debug = True
@@ -60,6 +61,47 @@ def upload_file():
 if __name__ == '__main__':
     #서버 실행
    app.run(debug = True)
+
+# Auto Managed Connection, But db_session create every request
+
+# initialize connection
+@app.before_first_request
+def beforeFirstRequest():
+    init_database()
+# close connection
+@app.teardown_appcontext
+def teardown(exception):
+    db_session.remove()
+
+
+@app.route('/regist', methods=['GET'])
+def regist():
+    return render_template("regist.html")
+
+@app.route('/regist', methods=['POST'])
+def regist_post():
+    email = request.form.get('email')
+    passwd = request.form.get('passwd')
+    
+    name = request.form.get('name')
+
+
+   u = User_info(name, email, passwd, True)
+   try:
+      db_session.add(u)
+      db_session.commit() 
+
+   except:
+      db_session.rollback()
+
+   flash("%s 님, 가입을 환영합니다!" % name)
+   return redirect("/login")
+
+
+
+
+
+
 
  
 
