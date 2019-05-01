@@ -27,11 +27,13 @@ class Town_record(Base):
     
     id = Column(Integer, primary_key=True)
     writer = Column(String)
+    title = Column(String)
     location = Column(String)
     describe = Column(String)
     
-    def __init__(self, writer, location, describe):
+    def __init__(self, writer, title, location, describe):
         self.writer = writer
+        self.title = title
         self.location = location
         self.describe = describe
 
