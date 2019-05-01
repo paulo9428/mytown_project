@@ -71,31 +71,16 @@
 
         <!-- Left -->
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link waves-effect" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
+          
           <li class="nav-item">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
-              Open modal for @mdo
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+              기록하기
             </button>
 
               {% include 'record_modal.html' %}
 
-          <script>
-            $('#exampleModal').on('show.bs.modal', function (event) {
-              var button = $(event.relatedTarget) // Button that triggered the modal
-              var recipient = button.data('whatever') // Extract info from data-* attributes
-              // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-              // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-              var modal = $(this)
-              modal.find('.modal-title').text('New message to ' + recipient)
-              modal.find('.modal-body input').val(recipient)
-            })
-          </script>
-
+          
            </li>
           <li class="nav-item">
             <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/getting-started/download/"

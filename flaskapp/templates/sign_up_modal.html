@@ -1,6 +1,6 @@
-{% macro sign_up_modal() -%}
 <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
+  <form action="/sign_up" method='POST'>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
@@ -33,42 +33,13 @@
       </div>
     </div>
   </div>
+</form>
 </div>
-{%- endmacro %}
 
 
 
 
 
-{% macro modal(id, title, icon='', isShowFooter=True, ok_fn='') %}
-<div class="modal fade" id="{{id}}" tabindex="-1" role="dialog"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">
-                    <strong>
-                        {% if icon %}
-                        <i class="{{icon}}"></i>
-                        {% endif %}
-                        {{title}}
-                    </strong>
-                </h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                {{caller()}}
-            </div>
-            {% if isShowFooter %}
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                <button type="button" onclick="{{ok_fn}}" class="btn btn-primary">확인</button>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-</div>
-{% endmacro %}
+
+
 

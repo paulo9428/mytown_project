@@ -1,10 +1,11 @@
 from flask import Flask
-from flask import session, render_template, request
-from datetime import datetime, date
-from flask import g , Response, make_response, url_for
-from pymongo import MongoClient
-from werkzeug import secure_filename
-from flaskapp import init_database
+from flask import render_template, request, Response, session, jsonify, make_response, redirect, flash, url_for
+from datetime import datetime, date, timedelta
+from sqlalchemy.orm import subqueryload, joinedload
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.sql import func
+from flaskapp.init_db import db_session, init_database
+from flaskapp.db_models import User_info, Town_record
 
 app = Flask(__name__)
 app.debug = True
@@ -74,19 +75,50 @@ def teardown(exception):
     db_session.remove()
 
 
-@app.route('/regist', methods=['GET'])
-def regist():
-    return render_template("regist.html")
+app.config.update(
+    connect_args={"options": "-c timezone=utc"},
+	SECRET_KEY='X1243yRH!mMwf',
+	SESSION_COOKIE_NAME='pyweb_flask_session',
+	PERMANENT_SESSION_LIFETIME=timedelta(31)      # 31 days
+)
 
-@app.route('/regist', methods=['POST'])
-def regist_post():
-    email = request.form.get('email')
-    passwd = request.form.get('passwd')
+
+# @app.route('/regist', methods=['GET'])
+# def regist():
+#     return render_template("regist.html")
+
+# @app.route('/regist', methods=['POST'])
+# def regist_post():
+#     email = request.form.get('email')
+#     passwd = request.form.get('passwd')
     
-    name = request.form.get('name')
+#     name = request.form.get('name')
 
 
-   u = User_info(name, email, passwd, True)
+#    u = User_info(name, email, passwd, True)
+#    try:
+#       db_session.add(u)
+#       db_session.commit() 
+
+#    except:
+#       db_session.rollback()
+
+#    flash("%s 님, 가입을 환영합니다!" % name)
+#    return redirect("/login")
+
+@app.route('/sign_up', methods = ['POST'])
+def sign_up():
+   
+   email = request.form.get('email')
+   passwd = request.form.get('passwd')
+   name = request.form.get('name')
+   
+   
+   print(email)
+   print(passwd)
+   print(name)
+
+   u = User_info(email, passwd, name, False)
    try:
       db_session.add(u)
       db_session.commit() 
@@ -94,8 +126,38 @@ def regist_post():
    except:
       db_session.rollback()
 
-   flash("%s 님, 가입을 환영합니다!" % name)
-   return redirect("/login")
+   flash("%s 님, 가입을 환영합니다!" % name)   
+   return redirect("/home_page")
+
+@app.route('/record', methods= ['POST'])
+def record():
+
+   writer = request.form.get('writer')
+   location = request.form.get('location')
+   describe = request.form.get('describe')
+
+   print(writer)
+   print(location)
+   print(describe)
+
+   r = Town_record(writer, location, describe)
+   try:
+      db_session.add(r)
+      db_session.commit() 
+
+   except:
+      db_session.rollback()
+
+   flash("성공적으로 기록되었습니다")   
+   return redirect("/home_page")
+
+   
+
+
+
+ 
+  
+   
 
 
 
