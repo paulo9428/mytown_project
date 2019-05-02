@@ -106,6 +106,32 @@ def sign_up():
    flash("%s 님, 가입을 환영합니다!" % name)   
    return redirect("/home_page")
 
+
+@app.route('/login', methods=['POST'])
+def login_post():
+    email = request.form.get('email')
+    passwd = request.form.get('passwd')
+    u = User.query.filter('email = :email and passwd = sha2(:passwd, 256)').params(email=email, passwd=passwd).first()
+    if u is not None:
+        session['loginUser'] = { 'userid': u.id, 'name': u.nickname }
+        if session.get('next'):
+            next = session.get('next')
+            del session['next']
+            return redirect(next)
+        return redirect('/')
+    else:
+        flash("해당 사용자가 없습니다!!")
+        return render_template("login.html", email=email)
+
+@app.route('/logout')
+def logout():
+    if session.get('loginUser'):
+        del session['loginUser']
+
+    return redirect('/')   
+
+
+
 @app.route('/record', methods= ['POST'])
 def record():
 
@@ -136,8 +162,17 @@ def upload_file():
    if request.method == 'POST':
       f = request.files['file']
       #저장할 경로 + 파일명
-      f.save('C:/Users/paulo/code_repository/mytown_project/flaskapp/uploads/' + secure_filename(f.filename))
+      f.save('C:/Users/paulo/code_repository/mytown_project/flaskapp/static/img/uploads/' + secure_filename(f.filename))
+
+      img_address = {{ url_for('static', filename='img/uploads/' + secure_filename(f.filename)) }}
+      print(img_address)
+
       return redirect("/home_page")
+      
+
+
+
+   
 
 # if __name__ == '__main__':
 #     #서버 실행

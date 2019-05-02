@@ -1,4 +1,8 @@
-{% macro input(name, value='', type='text', size=20) -%}
+{% block -%}
+
+<div class="row wow fadeIn">
+
+{% macro record_card(img_src, title, deep_link, location) -%}
 <div class="col-lg-4 col-md-6 mb-4">
 
     <!--Card-->
@@ -38,3 +42,7 @@
 
   </div>
   {%- endmacro %}
+
+  </div>
+
+  {%- block %}

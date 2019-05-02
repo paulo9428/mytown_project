@@ -30,11 +30,13 @@ class Town_record(Base):
     title = Column(String)
     location = Column(String)
     describe = Column(String)
+    img_address = Column(String)
     
     def __init__(self, writer, title, location, describe):
         self.writer = writer
         self.title = title
         self.location = location
         self.describe = describe
+        self.img_address = img_address
 
     
