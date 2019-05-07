@@ -5,8 +5,16 @@ from sqlalchemy.orm import subqueryload, joinedload
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import func
 from flaskapp.init_db import db_session, init_database
-from flaskapp.db_models import User_info, Town_record
+from flaskapp.db_models import User_info, Town_record, File_address
 from werkzeug import secure_filename
+import pymysql
+
+conn = pymysql.connect(host='localhost',
+        user='root',
+        password='r!',
+        db='mytown_project',
+        charset='utf8')
+
 
 app = Flask(__name__)
 app.debug = True
@@ -20,7 +28,33 @@ def helloworld():
 
 @app.route("/home_page")
 def home_page():
-    return render_template("home-page.html")
+    
+   
+    cursor =  conn.cursor() 
+                                        # left outer join 불안정해.... 이전에는 inner join
+    sql = 'SELECT f.card_image, t.title, t.location FROM Town_record t left outer join File_address f on t.id = f.id order by t.id desc'
+    cursor.execute(sql)                     
+    tr = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    print(tr)
+
+    
+    return render_template("home-page.html", tr=tr)
+
+
+
+   
+    
+
+               
+
+
+      
+   #  여기서 가져오나? 데이터
+   # 아니면 ajax 로?
 
 @app.route("/product_page")
 def product_page():
@@ -44,25 +78,6 @@ def mongoTest():
     client.close()
     return render_template('mongo.html', data=results)
 
-
-# #업로드 HTML 렌더링
-# @app.route('/upload')
-# def render_file():
-#    return render_template('upload.html')
-
-# #파일 업로드 처리
-# @app.route('/fileUpload', methods = ['GET', 'POST'])
-# def upload_file():
-#    if request.method == 'POST':
-      
-#       f = request.files['file']
-#       #저장할 경로 + 파일명
-#       f.save('flaskapp/uploads/' + secure_filename(f.filename))
-#       return 'uploads 디렉토리 -> 파일 업로드 성공!'
-
-# if __name__ == '__main__':
-#     #서버 실행
-#    app.run(debug = True)
 
 # Auto Managed Connection, But db_session create every request
 
@@ -88,40 +103,47 @@ def sign_up():
    
    email = request.form.get('email')
    passwd = request.form.get('passwd')
+   passwd2 = request.form.get('passwd2')
    name = request.form.get('name')
    
-   
-   print(email)
-   print(passwd)
-   print(name)
 
-   u = User_info(email, passwd, name, False)
-   try:
-      db_session.add(u)
-      db_session.commit() 
+   if passwd != passwd2:
+        
+        flash("암호를 정확히 입력하세요!!")
+        return redirect("/home_page")
+      
+    
+   else:
+      u = User_info(email, passwd, name, True)
+      try:
+         db_session.add(u)
+         db_session.commit() 
 
-   except:
-      db_session.rollback()
+      except:
+         db_session.rollback()
 
-   flash("%s 님, 가입을 환영합니다!" % name)   
-   return redirect("/home_page")
+         
+      flash("%s 님, 가입을 환영합니다!" % nickname)
+      return redirect("/home_page")
+
+    
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/sign_in', methods=['POST'])
 def login_post():
     email = request.form.get('email')
     passwd = request.form.get('passwd')
-    u = User.query.filter('email = :email and passwd = sha2(:passwd, 256)').params(email=email, passwd=passwd).first()
+    u = User_info.query.filter('email = :email and passwd = sha2(:passwd, 256)').params(email=email, passwd=passwd).first()
     if u is not None:
-        session['loginUser'] = { 'userid': u.id, 'name': u.nickname }
+        session['loginUser'] = { 'userid': u.id, 'name': u.name }
         if session.get('next'):
             next = session.get('next')
             del session['next']
             return redirect(next)
         return redirect('/')
     else:
-        flash("해당 사용자가 없습니다!!")
-        return render_template("login.html", email=email)
+        
+        return "해당 사용자가 없습니다!!"
 
 @app.route('/logout')
 def logout():
@@ -135,17 +157,17 @@ def logout():
 @app.route('/record', methods= ['POST'])
 def record():
 
-   writer = request.form.get('writer')
+   name = request.form.get('name')
    title = request.form.get('title')
    location = request.form.get('location')
    describe = request.form.get('describe')
 
-   print(writer)
-   print(title)
-   print(location)
-   print(describe)
+   # print(writer)
+   # print(title)
+   # print(location)
+   # print(describe)
 
-   r = Town_record(writer, title, location, describe)
+   r = Town_record(name, title, location, describe)
    try:
       db_session.add(r)
       db_session.commit() 
@@ -153,7 +175,7 @@ def record():
    except:
       db_session.rollback()
 
-   flash("성공적으로 기록되었습니다")   
+    
    return redirect("/home_page")
 
 
@@ -162,12 +184,23 @@ def upload_file():
    if request.method == 'POST':
       f = request.files['file']
       #저장할 경로 + 파일명
-      f.save('C:/Users/paulo/code_repository/mytown_project/flaskapp/static/img/uploads/' + secure_filename(f.filename))
+      f.save('flaskapp/static/img/uploads/' + secure_filename(f.filename))
 
-      img_address = {{ url_for('static', filename='img/uploads/' + secure_filename(f.filename)) }}
+      img_address = '../static/img/uploads/' + secure_filename(f.filename)
       print(img_address)
 
-      return redirect("/home_page")
+      f = File_address(img_address)
+      try:
+         db_session.add(f)
+         db_session.commit() 
+
+      except:
+         db_session.rollback()
+
+   return redirect("/home_page")
+   
+
+     
       
 
 

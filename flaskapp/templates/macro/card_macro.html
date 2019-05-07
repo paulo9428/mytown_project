@@ -1,0 +1,41 @@
+{% macro record_card(card_img = "unprepared", title = "unprepared", location = "unprepared") -%}
+<div class="col-lg-4 col-md-6 mb-4">
+
+  <!--Card-->
+  <div class="card">
+
+      
+    <!--Card image-->
+    <div class="view overlay">
+      <img src="{{card_img}}" class="card-img-top"
+        alt="">
+      <a>
+        <div class="mask rgba-white-slight"></div>
+      </a>
+    </div>
+    <!--Card image-->
+
+    <!--Card content-->
+    <div class="card-body text-center">
+      <!--Category & Title-->
+      <a href="#" class="grey-text">
+        <h5>{{title}}</h5>
+      </a>
+      <h5>
+        <strong>
+          <a href="#" class="btn btn-primary">자세히 보기</a>
+        </strong>
+      </h5>
+
+      <h4 class="font-weight-bold blue-text">
+        <strong>{{location}}</strong>
+      </h4>
+
+    </div>
+    <!--Card content-->
+
+  </div>
+  <!--Card-->
+
+</div>
+{%- endmacro %}

@@ -1,0 +1,60 @@
+{% import "macro/card_macro.html" as cm with context %}
+{% from "macro/card_macro.html" import record_card %}
+
+
+
+
+<!-- Grid row -->
+<div class="row wow fadeIn">
+{% for a in tr %}  
+  
+  {% if 4 > loop.index %}
+  
+    {{ record_card(a[0], a[1], a[2]) }}
+
+  {% endif %}
+
+{% endfor %}
+         
+</div>
+<!--Grid row-->
+
+<!--Grid row-->
+<div class="row wow fadeIn">
+
+{% for a in tr %}  
+  
+  {% if loop.index > 3 and 7 > loop.index  %}
+
+    {{ record_card(a[0], a[1], a[2]) }}
+
+  {% endif %}
+
+{% endfor %}
+
+</div>
+<!--Grid row-->
+
+<!--Grid row-->
+<div class="row wow fadeIn">
+
+    {% for a in tr %}  
+      
+      {% if loop.index > 6 and 10 > loop.index  %}
+    
+        {{ record_card(a[0], a[1], a[2]) }}
+    
+      {% endif %}
+    
+    {% endfor %}
+    
+</div>
+<!--Grid row-->
+
+<!-- loop.index % 3 == 0 (나머지) 이면 -->
+
+
+
+    
+
+    
