@@ -1,1 +1,2 @@
-/flaskapp/static/img/*
+*.jpg
+img/
