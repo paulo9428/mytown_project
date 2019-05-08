@@ -8,6 +8,14 @@ from flaskapp.init_db import db_session, init_database
 from flaskapp.db_models import User_info, Town_record, File_address
 from werkzeug import secure_filename
 import pymysql
+from flask_mail import Mail, Message
+import os
+
+
+
+
+
+
 
 conn = pymysql.connect(host='localhost',
         user='root',
@@ -32,7 +40,7 @@ def home_page():
    
     cursor =  conn.cursor() 
                                         # left outer join 불안정해.... 이전에는 inner join
-    sql = 'SELECT f.card_image, t.title, t.location FROM Town_record t left outer join File_address f on t.id = f.id order by t.id desc'
+    sql = 'SELECT f.card_image, t.title, t.location FROM Town_record t inner join File_address f on t.id = f.id order by t.id desc'
     cursor.execute(sql)                     
     tr = cursor.fetchall()
 
@@ -200,18 +208,108 @@ def upload_file():
    return redirect("/home_page")
    
 
-     
+@app.route("/email", methods=['post', 'get'])
+def email_test():
+
+    mail_settings = {
+        "MAIL_SERVER": 'smtp.gmail.com',
+        "MAIL_PORT": 465,
+        "MAIL_USE_TLS": False,
+        "MAIL_USE_SSL": True,
+        "MAIL_USERNAME": os.environ['EMAIL_USER'],
+        "MAIL_PASSWORD": os.environ['EMAIL_PASSWORD']
+    }
+
+    app.config.update(mail_settings)
+    mail = Mail(app)
+    
+    if request.method == 'POST':
+        
+        subject = request.form['subject']
+        sender_email = request.form['email_sender']
+        content = request.form['email_content']
+        
+        
+        
+            
+        with app.app_context():
+            msg = Message(subject=sender_email,  ### sender 변수로 발송자 email을 받을 수 없으니
+                        sender= sender_email,
+                        recipients=["paulo9428@naver.com"], # use your email for testing
+                        body= content)
+            mail.send(msg)
+        
+        
+        
+        if not mail.send(msg):
+            return render_template('email.html', content="이메일 보내졌습니다")
+        else:
+            return render_template('email.html', content="이메일 발송이 실패했습니다")
+    
+    else:
+        return render_template('email.html')
+    
+    
+
+    
+
+    # if __name__ == '__main__':
+    #     with app.app_context():
+    #         msg = Message(subject="Hello",
+    #                     sender=app.config.get("MAIL_USERNAME"),
+    #                     recipients=["paulo9428@naver.com"], # use your email for testing
+    #                     body="This is a test email I sent with Gmail and Python!")
+    #         mail.send(msg)
+
+    
+
+
+# app.config['MAIL_SERVER']='smtp.gmail.com'
+# app.config['MAIL_PORT'] = 465
+# app.config['MAIL_USERNAME'] = 'joonsoolee14'
+# app.config['MAIL_PASSWORD'] = ''
+# app.config['MAIL_USE_TLS'] = False
+# app.config['MAIL_USE_SSL'] = True
+
+# @app.route("/email", methods=['post', 'get'])
+# def email_test():
+    
+#     if request.method == 'POST':
+#         senders = request.form['email_sender']
+#         receiver = request.form['email_receiver']
+#         content = request.form['email_content']
+#         receiver = receiver.split(',')
+        
+#         for i in range(len(receiver)):
+#             receiver[i] = receiver[i].strip()
+            
+#         print(receiver)
+        
+#         result = send_email(senders, receiver, content)
+        
+#         if not result:
+#             return render_template('email.html', content="Email is sent")
+#         else:
+#             return render_template('email.html', content="Email is not sent")
+        
+#     else:
+#         return render_template('email.html')
+    
+# def send_email(senders, receiver, content):
+#     try:
+#         mail = Mail(app)
+#         msg = Message('Title', sender = senders, recipients = receiver)
+#         msg.body = content
+#         mail.send(msg)
+#     except Exception:
+#         pass 
+#     finally:
+#         pass    
       
 
 
 
-   
-
-# if __name__ == '__main__':
-#     #서버 실행
-#    app.run(debug = True)
-
-
+ 
    
 
 

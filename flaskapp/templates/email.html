@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <style>
+    .center {
+            margin: auto;
+            width: 50%;
+            border: 3px solid green;
+            padding: 10px;
+            }
+
+    input {
+        width: 50%
+
+    }
+    </style>
+    
+</head>
+
+<body>
+
+<div class='center'>
+ <h1>제작자에게 이메일 보내기</h1>
+
+ <h1>{{ content }}</h1>
+
+ <form action="/email" method=post>
+  <dl>
+   <dt>발송자 이메일:</dt>
+
+   <dd>
+    <input type="text" name=email_sender value="" />
+   </dd>
+
+   <dt>제목:</dt>
+
+   <dd>
+    <input type="text" name=subject value="" />
+   </dd>
+
+   <dt>내용:</dt>
+   <dd>
+    <!-- <input type="text" name=email_content value=""> -->
+    <textarea class="form-control" name=email_content rows="10" cols="70"></textarea>
+   </dd>
+  </dl>
+  <p>
+   <input type=submit value=SEND>
+  </p>
+ </form>
+</div>
+
+</body>
+</html>
