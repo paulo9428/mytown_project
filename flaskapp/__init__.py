@@ -13,17 +13,6 @@ import os
 
 
 
-
-
-
-
-conn = pymysql.connect(host='localhost',
-        user='root',
-        password='r!',
-        db='mytown_project',
-        charset='utf8')
-
-
 app = Flask(__name__)
 app.debug = True
 
@@ -36,11 +25,16 @@ def helloworld():
 
 @app.route("/home_page")
 def home_page():
-    
+
+    conn = pymysql.connect(host='localhost',
+        user='root',
+        password='r!',
+        db='mytown_project',
+        charset='utf8')
    
     cursor =  conn.cursor() 
                                         # left outer join 불안정해.... 이전에는 inner join
-    sql = 'SELECT f.card_image, t.title, t.location FROM Town_record t inner join File_address f on t.id = f.id order by t.id desc'
+    sql = 'SELECT f.card_image, t.title, t.location FROM Town_record t left outer join File_address f on t.id = f.id order by t.id desc'
     cursor.execute(sql)                     
     tr = cursor.fetchall()
 
