@@ -5,3 +5,6 @@
     "REMOTE_HOST_SSH": "",
     "REMOTE_USER": "paulo"
   }
+
+
+  // ubutntu server 필요, ssh client 와 함께
