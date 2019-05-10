@@ -53,6 +53,51 @@
 
 <!-- loop.index % 3 == 0 (나머지) 이면 -->
 
+<script>
+
+function send_ajax(url, method, data, dataType, fn) {
+            $.ajax({
+                url: url,
+                data: data,
+                type: method,
+                dataType: dataType
+            }).done(function (res) {                          // data 가 res 로 담겨??
+                if (fn)
+                    fn(res)
+            }).fail(function (xhr, status, errorThrown) {
+                console.error("Sorry, there was a problem!", xhr, status, errorThrown);
+            }).always(function (xhr, status) {
+                console.log("The request is complete!");
+            });
+        }
+
+$(function(){
+	$('button').click(function(){
+    send_ajax(url, method, data, dataType, fn)
+  });
+});
+
+
+$(function(){
+	$('button').click(function(){
+		
+		$.ajax({
+			url: '/home_page',
+			data: tr,
+			type: 'GET',
+      
+			success: function(response){
+				console.log(response);
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+	});
+});
+
+</script>
+
 
 
     

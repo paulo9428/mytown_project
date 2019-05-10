@@ -1,31 +1,30 @@
 [![Material Design for Bootstrap](https://mdbootstrap.com/wp-content/uploads/2018/01/product-page.jpg)](https://mdbootstrap.com/freebies/jquery/e-commerce/)
 
-# Bootstrap 4 & Material Design - Ecommerce Template 
+# MY TOWN PROJECT
 
-Free, responsive Ecommerce template containing many types of product pages, shopping carts, and different homepages with product presentations. Designed for business. Built with the newest Bootstrap 4 and Material Design. MIT license – free for personal and commercial use.
-
+Upload photos and description about the space you live around. Share the value and beauty of the space and can get reaction from people.
 ________
 
-# Live Previews: 
-## https://mdbootstrap.com/freebies/jquery/e-commerce/
 
 # Most important features:
 
-1. Fully responsive
+1. Upload Photos
 
-2. Plenty of useful components
+2. Recoding memory on that photos
 
-3. Easy installation
+3. Could find neighborhood living around
 
-4. Easy to use and customize
+4. Ranking system 
 
-5. Active community
+
+
+<!-- 5. Active community
 
 6. Dedicated support forum
 
-7. Detailed documentation
+7. Detailed documentation -->
 
-# Demo:  
+<!-- # Demo:  
 **Main demo**: https://mdbootstrap.com/previews/free-templates/ecommerce/home-page.html
 
 # MDB Quick Start (5 minutes):
@@ -113,4 +112,4 @@ Dribbble: https://dribbble.com/mdbootstrap
 
 LinkedIn: https://www.linkedin.com/company/material-design-for-bootstrap
 
-# Visit our website: https://mdbootstrap.com/
+# Visit our website: https://mdbootstrap.com/ -->

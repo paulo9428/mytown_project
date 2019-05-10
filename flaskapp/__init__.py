@@ -125,7 +125,7 @@ def sign_up():
          db_session.rollback()
 
          
-      flash("%s 님, 가입을 환영합니다!" % nickname)
+      flash("%s 님, 가입을 환영합니다!" % name)
       return redirect("/home_page")
 
     
@@ -146,6 +146,8 @@ def login_post():
     else:
         
         return "해당 사용자가 없습니다!!"
+
+## login 된 후 다음 세션에서 버튼이 logout 으로 변하기?
 
 @app.route('/logout')
 def logout():
