@@ -14,7 +14,7 @@ ________
 
 3. Could find neighborhood living around
 
-4. Ranking system 
+4. Decide town of the month
 
 
 

@@ -116,7 +116,7 @@ def sign_up():
       
     
    else:
-      u = User_info(email, passwd, name, True)
+      u = User_info(email, passwd, name, False)
       try:
          db_session.add(u)
          db_session.commit() 
