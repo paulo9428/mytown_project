@@ -1,4 +1,4 @@
-[![Material Design for Bootstrap](https://mdbootstrap.com/wp-content/uploads/2018/01/product-page.jpg)](https://mdbootstrap.com/freebies/jquery/e-commerce/)
+<!-- [![Material Design for Bootstrap](https://mdbootstrap.com/wp-content/uploads/2018/01/product-page.jpg)](https://mdbootstrap.com/freebies/jquery/e-commerce/) -->
 
 # MY TOWN PROJECT
 
