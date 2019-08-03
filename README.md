@@ -7,13 +7,13 @@ ________
 
 # Most important features:
 
-1. Upload Photos
+1. Upload my local town Photos
 
-2. Recoding memory on that photos
+2. Recoding my own memory on that photos
 
 3. Could find neighborhood living around
 
-4. Decide town of the month
+4. Decide a local town of the month 
 
 
 [![Material Design for Bootstrap](https://mdbootstrap.com/wp-content/uploads/2018/01/product-page.jpg)](https://mdbootstrap.com/freebies/jquery/e-commerce/)

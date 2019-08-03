@@ -15,10 +15,18 @@ app = Flask(__name__)
 app.debug = True
 app.jinja_env.trim_blocks = True
 
+# Auto Managed Connection, But db_session create every request
+# initialize connection
+@app.before_first_request
+def beforeFirstRequest():
+    init_database()
+# close connection
+@app.teardown_appcontext
+def teardown(exception):
+    db_session.remove()
 
-# @app.route("/")
-# def helloworld():
-#     return "Hello Flask World!"
+
+
 
 
 @app.route("/home_page")
@@ -41,8 +49,8 @@ def home_page():
     print(tr)
     return render_template("home-page.html", tr=tr)
 
-#  여기서 가져오나? 데이터
-   # 아니면 ajax 로                                 
+# ajax 이용??
+                             
 
 @app.route("/product_page")
 def product_page():
@@ -66,18 +74,7 @@ def mongoTest():
     client.close()
     return render_template('mongo.html', data=results)
 
-
-# Auto Managed Connection, But db_session create every request
-
-# initialize connection
-@app.before_first_request
-def beforeFirstRequest():
-    init_database()
-# close connection
-@app.teardown_appcontext
-def teardown(exception):
-    db_session.remove()
-
+# --------------------------------- sign up, sign in, sign out
 
 app.config.update(
     connect_args={"options": "-c timezone=utc"},
@@ -94,7 +91,6 @@ def sign_up():
     passwd2 = request.form.get('passwd2')
     name = request.form.get('name')
     
-
     if passwd != passwd2:
         
         flash("암호를 정확히 입력하세요!!")
@@ -109,8 +105,8 @@ def sign_up():
         
         flash("%s 님, 가입을 환영합니다!" % name)
         return redirect("/home_page")
+        
 
-    
 
 
 @app.route('/sign_in', methods=['POST'])
@@ -137,6 +133,8 @@ def logout():
         del session['loginUser']
 
     return redirect('/')   
+
+# ----------------------------------------------------------
 
 
 
@@ -206,17 +204,12 @@ def email_test():
         sender_email = request.form['email_sender']
         content = request.form['email_content']
         
-        
-        
-            
         with app.app_context():
             msg = Message(subject=sender_email,  ### sender 변수로 발송자 email을 받을 수 없으니
                         sender= sender_email,
                         recipients=["paulo9428@naver.com"], # use your email for testing
                         body= content)
             mail.send(msg)
-        
-        
         
         if not mail.send(msg):
             return render_template('email.html', content="이메일 보내졌습니다")
@@ -227,18 +220,20 @@ def email_test():
         return render_template('email.html')
     
     
+        
+        
 
     
 
-    # if __name__ == '__main__':
-    #     with app.app_context():
-    #         msg = Message(subject="Hello",
-    #                     sender=app.config.get("MAIL_USERNAME"),
-    #                     recipients=["paulo9428@naver.com"], # use your email for testing
-    #                     body="This is a test email I sent with Gmail and Python!")
-    #         mail.send(msg)
+# if __name__ == '__main__':
+#     with app.app_context():
+#         msg = Message(subject="Hello",
+#                     sender=app.config.get("MAIL_USERNAME"),
+#                     recipients=["paulo9428@naver.com"], # use your email for testing
+#                     body="This is a test email I sent with Gmail and Python!")
+#         mail.send(msg)
 
-    
+
 
 
 # app.config['MAIL_SERVER']='smtp.gmail.com'
