@@ -16,6 +16,5 @@ def upload_file():
       f.save('C:\Users\paulo\code_repository\mytown_project\flaskapp\uploads\' + secure_filename(f.filename))
       return 'uploads 디렉토리 -> 파일 업로드 성공!'
 
-if __name__ == '__main__':
-    #서버 실행
-   app.run(debug = True)
+
+

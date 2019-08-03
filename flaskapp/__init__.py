@@ -11,21 +11,18 @@ import pymysql
 from flask_mail import Mail, Message
 import os
 
-
-
 app = Flask(__name__)
 app.debug = True
-
 app.jinja_env.trim_blocks = True
 
 
-@app.route("/")
-def helloworld():
-    return "Hello Flask World!"
+# @app.route("/")
+# def helloworld():
+#     return "Hello Flask World!"
+
 
 @app.route("/home_page")
 def home_page():
-
     conn = pymysql.connect(host='localhost',
         user='root',
         password='r!',
@@ -42,21 +39,10 @@ def home_page():
     conn.close()
 
     print(tr)
-
-    
     return render_template("home-page.html", tr=tr)
 
-
-
-   
-    
-
-               
-
-
-      
-   #  여기서 가져오나? 데이터
-   # 아니면 ajax 로?
+#  여기서 가져오나? 데이터
+   # 아니면 ajax 로                                 
 
 @app.route("/product_page")
 def product_page():
@@ -103,30 +89,26 @@ app.config.update(
 @app.route('/sign_up', methods = ['POST'])
 def sign_up():
    
-   email = request.form.get('email')
-   passwd = request.form.get('passwd')
-   passwd2 = request.form.get('passwd2')
-   name = request.form.get('name')
-   
+    email = request.form.get('email')
+    passwd = request.form.get('passwd')
+    passwd2 = request.form.get('passwd2')
+    name = request.form.get('name')
+    
 
-   if passwd != passwd2:
+    if passwd != passwd2:
         
         flash("암호를 정확히 입력하세요!!")
         return redirect("/home_page")
-      
-    
-   else:
-      u = User_info(email, passwd, name, False)
-      try:
-         db_session.add(u)
-         db_session.commit() 
-
-      except:
-         db_session.rollback()
-
-         
-      flash("%s 님, 가입을 환영합니다!" % name)
-      return redirect("/home_page")
+    else:
+        u = User_info(email, passwd, name, False)
+        try:
+            db_session.add(u)
+            db_session.commit() 
+        except:
+            db_session.rollback()
+        
+        flash("%s 님, 가입을 환영합니다!" % name)
+        return redirect("/home_page")
 
     
 
@@ -178,7 +160,6 @@ def record():
 
    except:
       db_session.rollback()
-
     
    return redirect("/home_page")
 
