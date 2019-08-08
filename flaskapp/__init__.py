@@ -1,14 +1,16 @@
 from flask import Flask
 from flask import render_template, request, Response, session, jsonify, make_response, redirect, flash, url_for
-from datetime import datetime, date, timedelta
+
 from sqlalchemy.orm import subqueryload, joinedload
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import func
 from flaskapp.init_db import db_session, init_database
 from flaskapp.db_models import User_info, Town_record, File_address
-from werkzeug import secure_filename
 import pymysql
+
+from werkzeug import secure_filename
 from flask_mail import Mail, Message
+from datetime import datetime, date, timedelta
 import os
 
 app = Flask(__name__)
@@ -28,8 +30,8 @@ def teardown(exception):
 
 
 
-
-@app.route("/home_page")
+# 데이터 베이스에서 이미지와 관련 텍스트를 가져와서 홈화면에 display 해준다
+@app.route("/home_page")                   
 def home_page():
     conn = pymysql.connect(host='localhost',
         user='root',
@@ -46,11 +48,11 @@ def home_page():
     cursor.close()
     conn.close()
 
-    print(tr)
+    # print(tr)
     return render_template("home-page.html", tr=tr)
 
-# ajax 이용??
-                             
+
+# mdb  
 
 @app.route("/product_page")
 def product_page():
@@ -60,11 +62,12 @@ def product_page():
 def checkout_page():
     return render_template("checkout-page.html")
 
+# 사진 업로드하고 텍스트 기록하는 모달 
 @app.route("/recording_modal")
 def recording():
     return render_template('macro.html')
 
-
+# mongodb 테스트
 @app.route('/mongo', methods=['GET'])
 def mongoTest():
     client = MongoClient('mongodb://localhost:27017/')

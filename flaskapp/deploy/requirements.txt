@@ -1,1 +1,1 @@
-Flask-Mail
+# Repo에서 받아온 requirements.txt를 통해 pip 패키지를 virtualenv에 설치해줍니다.
