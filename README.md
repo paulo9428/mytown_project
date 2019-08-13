@@ -7,13 +7,17 @@ ________
 
 # Most important features:
 
-1. Upload my local town Photos
+1. Upload town Photos
 
-2. Describe my own memory on that photos
+2. Describe on that photos
 
-3. Could find neighborhood living around
+3. discover user living around me
 
-4. Decide a local town of the month
+4. Decide the town of the month
+
+5. simple sign up and in
+
+## powered by MDB free templates
 
 
 
